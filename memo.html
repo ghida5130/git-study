@@ -1,5 +1,6 @@
 <!-- 
- 
+    $ head = 현재 branch, base = 공통조상, other = 다른 branch
+
     # git add와 commit
     - add된 파일은 staging area에 기록되며 commit이 되어야 repository(저장소)로 저장된다.
 
@@ -9,7 +10,28 @@
 
     # git branch [branch name] => git switch [branch name]
     - branch를 추가하고 해당 branch로 전환한다.
+    - 모든 수정사항의 적용이 완료되고 branch가 더이상 필요없을때는 git branch -d [branch name]
+    * merge 하지않은 branch를 삭제할때는 대문자 D 사용해야함 (git branch -D [branch name])
 
+    # git merge [branch name]
+    - 현재 branch와 대상 branch의 merge를 실행한다.
+
+    $ 일반적인 두 branch간의 커밋내역에 대해 conflict를 해결하고 merge 하는 과정 = 3-way merge
+    $ 한쪽의 커밋내역이 없어 충돌이 일어날 일이 없고 merge과정없이 그대로 합치는 과정 = fast-forward merge
+
+    # git rebase
+    - head branch의 시작점을 base branch의 끝으로 이동시킨후 merge를 수행한다 = 강제로 fast-forward merge가 수행됨
+    - branch가 너무 많아지면 log가 매우 지저분해질 수 있다.
+    - 간단한 기능구현에 사용된 branch 등은 rebase를 통해 fast-forward merge로 병합한다.
+    - conflict가 많이 발생한다는 단점
+
+    $ merge와 rebase 사용 차이
+    - merge는 base branch에서 merge를 수행한다.
+    - rebase는 head branch에서 rebase를 수행한다. rebase가 완료되면 base branch로 이동해서 merge(fast-forward)를 수행한다.
+
+    # git merge --squash
+    - rebase merge가 커밋내역을 그대로 둔 채로 위치를 옮겨 강제로 fast-forward를 했다면 squash는 커밋내역을 하나로 통일시킨다.
+    - head branch에 커밋내역이 여러개일때 이를 하나의 커밋으로 단축하고 merge한다.
 
 
 
