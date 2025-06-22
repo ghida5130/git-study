@@ -1,5 +1,6 @@
 <!-- 
-    $ head = 현재 branch, base = 공통조상, other = 다른 branch
+    ! git은 commit외에도 쓰기좋은 기능이 많음. 커밋툴이 아님 버전관리툴임!
+    & head = 현재 branch, base = 공통조상, other = 다른 branch
 
     # git add와 commit
     - add된 파일은 staging area에 기록되며 commit이 되어야 repository(저장소)로 저장된다.
@@ -16,8 +17,8 @@
     # git merge [branch name]
     - 현재 branch와 대상 branch의 merge를 실행한다.
 
-    $ 일반적인 두 branch간의 커밋내역에 대해 conflict를 해결하고 merge 하는 과정 = 3-way merge
-    $ 한쪽의 커밋내역이 없어 충돌이 일어날 일이 없고 merge과정없이 그대로 합치는 과정 = fast-forward merge
+    & 일반적인 두 branch간의 커밋내역에 대해 conflict를 해결하고 merge 하는 과정 = 3-way merge
+    & 한쪽의 커밋내역이 없어 충돌이 일어날 일이 없고 merge과정없이 그대로 합치는 과정 = fast-forward merge
 
     # git rebase
     - head branch의 시작점을 base branch의 끝으로 이동시킨후 merge를 수행한다 = 강제로 fast-forward merge가 수행됨
@@ -25,7 +26,7 @@
     - 간단한 기능구현에 사용된 branch 등은 rebase를 통해 fast-forward merge로 병합한다.
     - conflict가 많이 발생한다는 단점
 
-    $ merge와 rebase 사용 차이
+    & merge와 rebase 사용 차이
     - merge는 base branch에서 merge를 수행한다.
     - rebase는 head branch에서 rebase를 수행한다. rebase가 완료되면 base branch로 이동해서 merge(fast-forward)를 수행한다.
 
@@ -33,6 +34,17 @@
     - rebase merge가 커밋내역을 그대로 둔 채로 위치를 옮겨 강제로 fast-forward를 했다면 squash는 커밋내역을 하나로 통일시킨다.
     - head branch에 커밋내역이 여러개일때 이를 하나의 커밋으로 단축하고 merge한다.
 
+    # git restore [file name] : 최근 커밋으로 파일 수정내역을 되돌린다.
+    # git restore --source [commit hash] [file name] : 입력한 해시 시점의 파일내용으로 되돌린다.
+    # git restore --staged [file name] : 특정 파일의 스테이징을 취소한다 (add)
 
+    # git revert [commit hash] : 해시에 해당하는 커밋의 수정내역을 제거한다. 수정내역이 제거되었다는 커밋이 남는다.
+    * (커밋 자체의 삭제가 아님) (여러개 해시 입력 가능)
+
+    # git reset [option] [commit hash] : 해시에 해당하는 커밋으로 되돌아가고 이후의 커밋을 모두 제거한다.
+    - --soft : 커밋만 되돌리고 변경사항은 스테이징 해두며 파일도 되돌리지 않는다. (커밋만 제거)
+    - --mixed(기본값) : 커밋과 스테이징을 초기화하지만 파일은 되돌리지 않는다. (파일만 유지하고 나머지 git 기록 제거)
+    - --hard : 커밋, 스테이징과 함께 파일까지 모두 되돌린다. (완전한 롤백)
+    * 위험한 키워드이므로 일반적인 협업상황에 쓸 일은 거의 없다.
 
 -->
