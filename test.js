@@ -3,5 +3,7 @@ for (let i = 0; i < 10; i++) {
 }
 
 const fixed = "fixed data";
+const testData = "test data";
 
 console.log(fixed);
+console.log(testData);
