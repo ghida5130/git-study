@@ -2,23 +2,25 @@
     ! git은 commit외에도 쓰기좋은 기능이 많음. 커밋툴이 아님 버전관리툴임!
     & head = 현재 branch, base = 공통조상, other = 다른 branch
 
+    & Git -------------------------
+
     # git add와 commit
     - add된 파일은 staging area에 기록되며 commit이 되어야 repository(저장소)로 저장된다.
 
     # git diff / difftool
-    * git difftool [commit hash] 혹은 두개의 hash를 비교하는 형태로 사용 가능
+    + git difftool [commit hash] 혹은 두개의 hash를 비교하는 형태로 사용 가능
     - 최근 commit과 현재 파일의 차이점을 보여준다. difftool을 활용하면 좀더 직관적인 비교가 가능하다
 
     # git branch [branch name] => git switch [branch name]
     - branch를 추가하고 해당 branch로 전환한다.
     - 모든 수정사항의 적용이 완료되고 branch가 더이상 필요없을때는 git branch -d [branch name]
-    * merge 하지않은 branch를 삭제할때는 대문자 D 사용해야함 (git branch -D [branch name])
+    + merge 하지않은 branch를 삭제할때는 대문자 D 사용해야함 (git branch -D [branch name])
 
     # git merge [branch name]
     - 현재 branch와 대상 branch의 merge를 실행한다.
 
-    & 일반적인 두 branch간의 커밋내역에 대해 conflict를 해결하고 merge 하는 과정 = 3-way merge
-    & 한쪽의 커밋내역이 없어 충돌이 일어날 일이 없고 merge과정없이 그대로 합치는 과정 = fast-forward merge
+    * 일반적인 두 branch간의 커밋내역에 대해 conflict를 해결하고 merge 하는 과정 = 3-way merge
+    * 한쪽의 커밋내역이 없어 충돌이 일어날 일이 없고 merge과정없이 그대로 합치는 과정 = fast-forward merge
 
     # git rebase
     - head branch의 시작점을 base branch의 끝으로 이동시킨후 merge를 수행한다 = 강제로 fast-forward merge가 수행됨
@@ -26,7 +28,7 @@
     - 간단한 기능구현에 사용된 branch 등은 rebase를 통해 fast-forward merge로 병합한다.
     - conflict가 많이 발생한다는 단점
 
-    & merge와 rebase 사용 차이
+    * merge와 rebase 사용 차이
     - merge는 base branch에서 merge를 수행한다.
     - rebase는 head branch에서 rebase를 수행한다. rebase가 완료되면 base branch로 이동해서 merge(fast-forward)를 수행한다.
 
@@ -38,13 +40,63 @@
     # git restore --source [commit hash] [file name] : 입력한 해시 시점의 파일내용으로 되돌린다.
     # git restore --staged [file name] : 특정 파일의 스테이징을 취소한다 (add)
 
-    # git revert [commit hash] : 해시에 해당하는 커밋의 수정내역을 제거한다. 수정내역이 제거되었다는 커밋이 남는다.
-    * (커밋 자체의 삭제가 아님) (여러개 해시 입력 가능)
+    # git revert [commit hash]
+    - 해시에 해당하는 커밋의 수정내역을 제거한다. 수정내역이 제거되었다는 커밋이 남는다.
+    + (커밋 자체의 삭제가 아님) (여러개 해시 입력 가능)
 
     # git reset [option] [commit hash] : 해시에 해당하는 커밋으로 되돌아가고 이후의 커밋을 모두 제거한다.
     - --soft : 커밋만 되돌리고 변경사항은 스테이징 해두며 파일도 되돌리지 않는다. (커밋만 제거)
     - --mixed(기본값) : 커밋과 스테이징을 초기화하지만 파일은 되돌리지 않는다. (파일만 유지하고 나머지 git 기록 제거)
     - --hard : 커밋, 스테이징과 함께 파일까지 모두 되돌린다. (완전한 롤백)
-    * 위험한 키워드이므로 일반적인 협업상황에 쓸 일은 거의 없다.
+    + 위험한 키워드이므로 일반적인 협업상황에 쓸 일은 거의 없다.
+
+    # Git stash
+    - 마지막 commit 이후에 발생한 수정사항들을 임시보관한다. (staging 된 파일만, 강제 stash도 따로 있음) 로컬파일은 마지막 commit때로 돌아간다.
+    - stash 된 코드는 마지막 commit과의 차이점도 함께 기록한다.
+    - stash는 여러개 할 수 있다. hash 값으로 내 코드를 임시 저장하여 사용하는것이다.
+    + git stash list : stash 된 항목들 조회
+    + git stash save "설명" : git commit에 메시지를 남기는것처럼 stash에 메모를 남긴다.
+    + git stash pop : 최근 stash한 수정사항을 로컬파일에 다시 돌려준다. (가장최근 stash순서대로 되며 지정도 가능)
+
+    & Github -------------------------
+
+    # git remote add [변수명] [주소]
+    - 원격저장소 주소를 변수에 저장해서 사용할 수 있다. (git push -u origin main)
+
+    # git push -u origin main
+    - remote된 origin 주소의 main branch로 push 명령을 수행한다.
+    - 이때 -u를 추가하면 origin main에 해당하는 내용을 기억하라는 의미이다. 이 명령을 한번 수행한 뒤에는 git push로 사용이 가능하다.
+
+    # git pull
+    - 원격저장소에 변경사항이 있다면 내 로컬저장소에 반영한다.
+    - git fetch와 git merge가 합쳐진것이다. fetch를 통해 신규 commit을 가져와 반영하고 merge를 수행하여 충돌을 해결한다.
+
+    * pull requests
+    - 분리된 branch에서 수정한 내역에 대해 base branch로의 merge를 요청하는 기능이다.
+    - 특정 branch에서 작업을 이어가다가 base가 되는 branch에 수정내역을 반영하기 위해 github에서 직접 요청한다.
+    - git 자체에서 merge를 수행하고 push 해버릴수도 있지만 pull requests 기능은 여러 팀원이 수정사항 검토후 반영한다는 차이점이 있다.
+
+    & Git 전략 -------------------------
+
+    # Git Flow
+    - 1. main : 실질적 배포가 이루어지는 branch
+    - 2. develop : 신기능을 임시로 추가하는 main의 복사 branch
+    - 3. feature : 실질적 기능을 개발하고 develop에 merge하는 branch feature/search 등으로 개발기능에 대해 작명하여 사용
+    - 4. release : develop에서 어느정도 기능이 추가되고 main에 merge하기 전에 테스트하기위한 branch, release에서 수정사항이 발생하면 main뿐아니라 develop쪽에도 merge해줘야 한다.
+    - 5. hotfix : 버그발생 등 빠른 수정이 필요할때 복잡한 과정을 거치지 않고 main에서 hotfix 브랜치로 복사한 후 버그를 수정하고 main과 develop에 merge한다.
+    + CI/CD 환경에서는 불리한 환경이다. 환경에 맞춰 전략을 수정해서 사용하는것도 좋다.
+
+    # Trunk-based & Github Flow
+    - Trunk-based : main 브랜치 하나만 운영하며 필요한 수정사항이 있을때 main에서 곁가지 branch를 만들어서 바로바로 수정
+    - Github Flow : Trunk-based와 매우 유사하며 main 브랜치로의 merge과정에 PR(Pull Request)을 활용한다.
+    + main 브랜치로 바로바로 통합되기때문에 테스트를 많이, 자주 해야한다.
+    + 이미 안정화된 프로젝트는 큰 수정사항이 많지 않기때문에 활용하기 좋다.
+
+    # Gitlab Flow
+    - 1. production : 실질적 배포가 이루어짐
+    - 2. pre-production : QA, PO 등이 배포전 최종 점검을 수행하는 브랜치
+    - 3. master : feature에서 만들어진 기능들을 지속적으로 병합하는 브랜치. 어느정도 요구사항이 갖춰졌을때 pre-production으로 MR 진행
+    - 4. feature : 필요한 기능들을 개발하는 브랜치. 기능이 완성되면 master로 MR 진행
+    + MR (Merge Request) : GitLab에서 사용하는 용어. Pull Request와 같은 의미이다.
 
 -->
